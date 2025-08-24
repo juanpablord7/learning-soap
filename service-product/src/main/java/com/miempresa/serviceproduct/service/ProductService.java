@@ -1,26 +1,22 @@
 package com.miempresa.serviceproduct.service;
 
-import com.miempresa.serviceproduct.dto.PaginatedResponse;
-import com.miempresa.serviceproduct.dto.ProductPatchRequest;
+import com.miempresa.serviceproduct.client.CategoryClient;
 import com.miempresa.serviceproduct.dto.ProductRequest;
+import com.miempresa.serviceproduct.dto.client.Category;
 import com.miempresa.serviceproduct.model.Product;
 import com.miempresa.serviceproduct.repository.ProductRepository;
-import jakarta.validation.ConstraintViolation;
-import jakarta.validation.ConstraintViolationException;
-import jakarta.validation.Validator;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.data.domain.Page;
-import org.springframework.data.domain.PageRequest;
-import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
-import java.util.Set;
 
 @Service
 public class ProductService {
     @Autowired
     ProductRepository productRepository;
+
+    @Autowired
+    CategoryClient categoryClient;
 
     // Get All
     public List<Product> findProducts() {
@@ -41,15 +37,18 @@ public class ProductService {
     public Product createProduct(ProductRequest request) {
         System.out.println("Request product to be saved: " + request.toString());
 
-        Long category = 0L;
-        if (request.getCategory() != null) {
-            category = request.getCategory();
+        Long categoryId;
+        Category category = categoryClient.getCategory(request.getCategory());
+        if(category.getId() == -1L){
+            categoryId = null;
+        }else{
+            categoryId = category.getId();
         }
-
+        
         Product product = Product.builder()
                 .name(request.getName())
                 .price(request.getPrice())
-                .category(category)
+                .category(categoryId)
                 .image(request.getImage())
                 .build();
 

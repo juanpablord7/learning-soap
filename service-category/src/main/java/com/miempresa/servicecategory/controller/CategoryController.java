@@ -22,7 +22,7 @@ public class CategoryController {
     }
 
     @GetMapping("/{id}")
-    public ResponseEntity<Category> getCategoryById(@PathVariable Long id){
+    public ResponseEntity<?> getCategoryById(@PathVariable Long id){
         Category category = categoryService.findCategoryById(id);
         return ResponseEntity.ok(category);
     }

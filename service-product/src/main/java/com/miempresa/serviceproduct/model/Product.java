@@ -37,8 +37,5 @@ public class Product {
     @Column(nullable = false)
     private String image;
 
-    @NotNull(message = "The category id can't be empty")
-    @PositiveOrZero(message = "The category id must be positive")
-    @Column(nullable = false)
     private Long category;
 }
