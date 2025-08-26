@@ -1,10 +1,10 @@
 package com.miempresa.serviceproduct.service;
 
-import com.miempresa.serviceproduct.client.CategoryClient;
+import com.miempresa.serviceproduct.client.CategorySoapClient;
 import com.miempresa.serviceproduct.dto.ProductRequest;
-import com.miempresa.serviceproduct.dto.client.Category;
 import com.miempresa.serviceproduct.model.Product;
 import com.miempresa.serviceproduct.repository.ProductRepository;
+import com.miempresa.ws.GetCategoryResponse;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
@@ -16,7 +16,7 @@ public class ProductService {
     ProductRepository productRepository;
 
     @Autowired
-    CategoryClient categoryClient;
+    CategorySoapClient categorySoapClient;
 
     // Get All
     public List<Product> findProducts() {
@@ -38,11 +38,15 @@ public class ProductService {
         System.out.println("Request product to be saved: " + request.toString());
 
         Long categoryId;
-        Category category = categoryClient.getCategory(request.getCategory());
-        if(category.getId() == -1L){
+        GetCategoryResponse response = categorySoapClient.getCategory(request.getCategory());
+        if(response.getCategory() == null){
             categoryId = null;
         }else{
-            categoryId = category.getId();
+            System.out.println("Category " +response.getCategory());
+            System.out.println("Category Id: " + response.getCategory().getId());
+            System.out.println("Category Name: " + response.getCategory().getName());
+            System.out.println("Category Image: " + response.getCategory().getImage());
+            categoryId = (long) response.getCategory().getId();
         }
 
         Product product = Product.builder()

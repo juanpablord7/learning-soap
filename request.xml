@@ -1,0 +1,9 @@
+<soapenv:Envelope xmlns:soapenv="http://schemas.xmlsoap.org/soap/envelope/"
+                  xmlns:tns="http://miempresa.com/ws">
+   <soapenv:Header/>
+   <soapenv:Body>
+      <tns:getCategoryRequest>
+         <tns:id>1</tns:id>
+      </tns:getCategoryRequest>
+   </soapenv:Body>
+</soapenv:Envelope>

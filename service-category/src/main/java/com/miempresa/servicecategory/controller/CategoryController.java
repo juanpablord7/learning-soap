@@ -1,7 +1,7 @@
 package com.miempresa.servicecategory.controller;
 
 import com.miempresa.servicecategory.dto.CategoryRequest;
-import com.miempresa.servicecategory.model.Category;
+import com.miempresa.servicecategory.model.CategoryModel;
 import com.miempresa.servicecategory.service.CategoryService;
 import jakarta.validation.Valid;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -17,20 +17,20 @@ public class CategoryController {
     CategoryService categoryService;
 
     @GetMapping()
-    public ResponseEntity<List<Category>> getAllCategory(){
+    public ResponseEntity<List<CategoryModel>> getAllCategory(){
         return ResponseEntity.ok(categoryService.findAllCategory());
     }
 
     @GetMapping("/{id}")
     public ResponseEntity<?> getCategoryById(@PathVariable Long id){
-        Category category = categoryService.findCategoryById(id);
-        return ResponseEntity.ok(category);
+        CategoryModel categoryModel = categoryService.findCategoryById(id);
+        return ResponseEntity.ok(categoryModel);
     }
 
     @PostMapping
-    public ResponseEntity<Category> postCategory(@Valid @RequestBody CategoryRequest request){
-        Category category = categoryService.createCategory(request);
-        return ResponseEntity.status(201).body(category);
+    public ResponseEntity<CategoryModel> postCategory(@Valid @RequestBody CategoryRequest request){
+        CategoryModel categoryModel = categoryService.createCategory(request);
+        return ResponseEntity.status(201).body(categoryModel);
     }
 
 }
