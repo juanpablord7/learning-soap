@@ -44,7 +44,7 @@ public class ProductService {
         }else{
             categoryId = category.getId();
         }
-        
+
         Product product = Product.builder()
                 .name(request.getName())
                 .price(request.getPrice())
